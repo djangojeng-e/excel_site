@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import caculate
+from .views import calculate
 
 
 urlpatterns = [
-    path('send', calculate, name="calculate_do"),
+    path('', calculate, name="calculate_do"),
     
 ]

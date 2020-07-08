@@ -4,5 +4,5 @@ from django.http import HttpResponse
 # Create your views here.
 
 
-def caculate(request):
+def calculate(request):
     return HttpResponse("Calculate, calculate function!")
