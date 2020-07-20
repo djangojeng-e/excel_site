@@ -8,8 +8,10 @@ from sendEmail.views import *
 
 
 def index(request):
-    return render(request, 'main/index.html')
-
+    if 'user_name' in request.session.keys():
+        return render(reqeust, 'main/index.html')
+    else:
+        return redirect('main_signin')
 
 def signup(request):
     return render(request, 'main/signup.html')
@@ -41,8 +43,10 @@ def verify(request):
 
 
 def result(request):
-    return render(request, 'main/result.html')
-
+    if 'user_name' in request.session.keys():
+        return render(request, 'main/result.html')
+    else:
+        return redirect('main_signin')
 
 def join(request):
     print(request)
@@ -62,3 +66,20 @@ def join(request):
     else:
         return HttpResponse('이메일 발송에 실패했습니다')
     return response
+
+def login(request):
+    loginEmail = request.POST['loginEmail']
+    loginPW = request.POST['loginPW']
+    user = User.objects.get(user_email=loginEmail)
+    if user.user_password == loginPW:
+        request.session['user_name'] = user.user_name
+        request.session['user_email'] = user.user_email
+        return redirect('main_index')
+    else:
+        return redirect('main_loginFail') 
+
+
+def loggout(request):
+    del request.session['user_name']
+    del request.session['user_email']
+    return redirect('main_signin')
