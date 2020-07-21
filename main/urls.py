@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from .views import index, signin, signup, verify, verifyCode, result, join
-from .views import login
+from .views import login, loggout
 
 urlpatterns = [
     path('', index, name="main_index"),
@@ -12,5 +12,5 @@ urlpatterns = [
     path('verifyCode', verifyCode, name='main_verifyCode'),
     path('verify', verify, name='main_verify'),
     path('result', result, name='main_result'),
-    path('logout', views.logout, name='main_logout')
+    path('logout', loggout, name='main_logout')
 ]

@@ -9,7 +9,7 @@ from sendEmail.views import *
 
 def index(request):
     if 'user_name' in request.session.keys():
-        return render(reqeust, 'main/index.html')
+        return render(request, 'main/index.html')
     else:
         return redirect('main_signin')
 
@@ -70,13 +70,14 @@ def join(request):
 def login(request):
     loginEmail = request.POST['loginEmail']
     loginPW = request.POST['loginPW']
-    user = User.objects.get(user_email=loginEmail)
-    if user.user_password == loginPW:
-        request.session['user_name'] = user.user_name
-        request.session['user_email'] = user.user_email
-        return redirect('main_index')
+    user = User.objects.filter(user_email=loginEmail)
+    if user:
+        if user.user_password == loginPW:
+            request.session['user_name'] = user.user_name
+            request.session['user_email'] = user.user_email
+            return redirect('main_index')
     else:
-        return redirect('main_loginFail') 
+        return HttpResponse('<script>alert("로그인 실패"); window.history.back();</script>') 
 
 
 def loggout(request):
