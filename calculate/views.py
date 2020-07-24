@@ -5,7 +5,10 @@ from django.http import HttpResponse
 
 
 def calculate(request):
-    file = request.FILES['fileInput']
-    print('# 사용자가 등록한 파일의 이름 : ', file)
-    return render(request, 'calculate/calculate_file_upload.html')
+    if request.method == "POST": 
+        file = request.FILES['fileInput']
+        print("# 사용자가 등록한 파일의 이름 : ",  file)
+        return render(request, 'calculate/calculate_file_upload.html')
+    else:
+        return render(request, 'calculate/calculate_file_upload.html')
 
