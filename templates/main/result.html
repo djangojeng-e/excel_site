@@ -40,6 +40,20 @@
         <div class='body'>
             <div class="resultDiv">
                 <h3> * Excel 결과 확인 *</h3>
+                <h4> - grade별 최소, 최대, 평균 value</h4>
+            {% for key, value in grade_calculate_dic.items %}
+                <h5>GRADE: {{ key }} </h5>
+                <p><strong>최소값 : </strong>{{ value.min }}</p>
+                <p><strong>최대값 : </strong>{{ value.max }}</p>
+                <p><strong>평균값 : </strong>{{ value.avg }}</p>
+            {% endfor %}
+            <br>
+            <h4> - 이메일 주소 도메인 인원 </h4> 4
+            {% for key, value in email_domain_dic.items %}
+                <p><strong>{{ key }}: </strong> {{ value }}명 </p>
+            {% endfor %}
+            <br>
+            
             </div>
             <hr>
         </div>
