@@ -76,12 +76,18 @@ def join(request):
 def login(request):
     loginEmail = request.POST['loginEmail']
     loginPW = request.POST['loginPW']
-    user = User.objects.filter(user_email=loginEmail)
-    if user:
-        if user.user_password == loginPW:
-            request.session['user_name'] = user.user_name
-            request.session['user_email'] = user.user_email
-            return redirect('main_index')
+    try:
+        user = User.objects.filter(user_email=loginEmail)
+    except:
+        return redirect('main_loginFail')
+    # 사용자가 입력한 PW 암호화
+    encoded_loginPW = loginPW.encode()
+    encrypted_loginPW = hashlib.sha256(encoded_loginPW).hexdigest()    
+    
+    if user.user_password == encrypted_loginPW:
+        request.session['user_name'] = user.user_name
+        request.session['user_email'] = user.user_email
+        return redirect('main_index')
     else:
         return HttpResponse('<script>alert("로그인 실패"); window.history.back();</script>') 
 
