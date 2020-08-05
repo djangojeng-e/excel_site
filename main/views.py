@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import User
 from random import *
 from sendEmail.views import *
+import hashlib
 
 
 # Create your views here.
@@ -53,7 +54,11 @@ def join(request):
     name = request.POST['signupName']
     email = request.POST['signupEmail']
     pw = request.POST['signupPW']
-    user = User(user_name=name, user_email=email, user_password=pw)
+    # pw encryption 
+    encoded_pw = pw.encode()
+    encrypted_pw = hashlib.sha256(encoded_pw).hexdigest()
+
+    user = User(user_name=name, user_email=email, user_password=encrypted_pw)
     user.save()
     code = randint(1000, 9999)
     response = redirect('main_verifyCode')
@@ -66,6 +71,7 @@ def join(request):
     else:
         return HttpResponse('이메일 발송에 실패했습니다')
     return response
+
 
 def login(request):
     loginEmail = request.POST['loginEmail']
