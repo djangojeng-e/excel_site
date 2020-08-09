@@ -69,8 +69,9 @@ def join(request):
     if send_result:
         return response
     else:
-        return HttpResponse('이메일 발송에 실패했습니다')
-    return response
+        content = {'message': '이메일 발송에 실패 했습니다.'}
+        return render('main/error.html', content)
+    # return response
 
 
 def login(request):
