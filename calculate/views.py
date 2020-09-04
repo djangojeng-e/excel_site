@@ -1,11 +1,23 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import pandas as pd 
-
+from .models import Document
+import datetime
 # Create your views here.
 
 
 def calculate(request):
+    file = request.FILES['fileInput']
+    # print('# 사용자가 등록한 파일의 이름: ', file)
+    # 파일 저장하기 
+    origin_file_name = file.name 
+    user_name = request.session['user_name']
+    now_HMS = datetime.today().strftime('%H%M%S')
+    file_upload_name = now_HMS + '_' + user_name + '_' + origin_file_name
+    file.name = file_upload_name
+    document = Document(user_upload_file = file)
+    document.save() 
+
     if request.method == "POST": 
         file = request.FILES['fileInput']
         print("# 사용자가 등록한 파일의 이름 : ",  file)
@@ -75,6 +87,10 @@ def result(request):
         content['email_domain_dic'] = request.session['email_domain_dic']
         del request.session['grade_calculate_dic']
         del request.session['email_domain_dic']
-        return render(reqeust, 'main/result.html', content)
+        return render(request, 'main/result.html', content)
     else:
         return redirect('main_signin')
+
+
+
+
