@@ -128,3 +128,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Media files 
+
+# MEDIA_ROOT refers to media files 들이 모여 있을 최상위 경로를 의미하고. 
+# MEDIA_URL 은 사용자가 업로드한 파일을 저장할때 사용하기 위한 단순한 url 형태의 문자열이다. 
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
