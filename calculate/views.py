@@ -3,7 +3,24 @@ from django.http import HttpResponse
 import pandas as pd 
 from .models import Document
 import datetime
+import os
+
 # Create your views here.
+
+
+def download(request):
+    path = request.GET['path']
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+
+    if os.path.exists(file_path):
+        binary_file = open(file_path, 'rb')
+        response = HttpResponse(binary_file.read(), contet_type="application/liquid; charset=utf-8")
+        response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+        return response
+
+    else:
+        message = '알수 없는 오류가 발생했습니다'
+        return render(request, 'main/error.html', {"message": message}) 
 
 
 def calculate(request):
